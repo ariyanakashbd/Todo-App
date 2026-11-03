@@ -25,16 +25,7 @@ const Regestaion = () => {
     if (!agree) {
       alert("Please accept Terms & Conditions")
       return
-    }
-
-    console.log({
-      name,
-      email,
-      password
-    })
-
-    // Later Backend API Connect করবে
-  }
+    }}
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-700 via-blue-600 to-indigo-800 flex items-center justify-center p-4">

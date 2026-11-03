@@ -136,12 +136,12 @@ const Login = () => {
 
           Don't have an account?
 
-          <a
+          <Link
             href="/register"
             className="text-blue-600 font-semibold ml-1 hover:text-blue-800"
           >
             Sign Up
-          </a>
+          </Link>
 
         </p>
 

@@ -17,15 +17,7 @@ const Reset = () => {
     if (password !== confirmPassword) {
       alert("Password does not match!")
       return
-    }
-
-    console.log({
-      password,
-      confirmPassword
-    })
-
-    // Later Backend API Connect করবে
-  }
+    }}
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-700 via-blue-600 to-indigo-800 flex items-center justify-center p-4">
