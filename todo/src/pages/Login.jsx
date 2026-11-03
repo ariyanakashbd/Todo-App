@@ -1,17 +1,50 @@
 
 import React, { useState } from 'react'
 import { FiEye, FiEyeOff } from 'react-icons/fi'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useToast } from '../components/Toast'
 
 const Login = () => {
+
+  const navigate = useNavigate()
+  const toast = useToast()
 
   const [showPassword, setShowPassword] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [rememberMe, setRememberMe] = useState(false)
+  const [agree, setAgree] = useState(false)
 
   const handleLogin = (e) => {
-    e.preventDefault()}
+    e.preventDefault()
+
+    if (!agree) {
+      toast.error('Please accept Terms & Conditions')
+      return
+    }
+
+    if (!rememberMe) {
+      toast.error('Please check Remember me')
+      return
+    }
+
+    const savedUser = JSON.parse(localStorage.getItem('todo_user') || 'null')
+
+    if (!savedUser) {
+      toast.error('No account found. Please register first.')
+      navigate('/register')
+      return
+    }
+
+    if (savedUser.email !== email || savedUser.password !== password) {
+      toast.error('Invalid email or password.')
+      return
+    }
+
+    localStorage.setItem('todo_logged_in', 'true')
+
+    navigate('/dashboard')
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-700 via-blue-600 to-indigo-800 flex items-center justify-center p-4">
@@ -52,8 +85,7 @@ const Login = () => {
               onChange={(e) => setEmail(e.target.value)}
               required
               autoComplete="email"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition"
-            />
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition"/>
 
           </div>
 
@@ -112,9 +144,7 @@ const Login = () => {
 
             </label>
 
-            <Link
-              href="/forgot-password"
-              className="text-sm font-medium text-blue-600 hover:text-blue-800"
+            <Link to="/forgot-password" href="/forgot-password" className="text-sm font-medium text-blue-600 hover:text-blue-800"
             >
               Forgot Password?
             </Link>
@@ -122,7 +152,7 @@ const Login = () => {
           </div>
 
           {/* Login Button */}
-          <button
+          <button 
             type="submit"
             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition duration-300 shadow-md shadow-blue-200"
           >
@@ -136,10 +166,7 @@ const Login = () => {
 
           Don't have an account?
 
-          <Link
-            href="/register"
-            className="text-blue-600 font-semibold ml-1 hover:text-blue-800"
-          >
+          <Link to="/register" href="/register" className="text-blue-600 font-semibold ml-1 hover:text-blue-800">
             Sign Up
           </Link>
 

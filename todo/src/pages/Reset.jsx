@@ -2,8 +2,11 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FiEye, FiEyeOff, FiLock, FiArrowLeft } from 'react-icons/fi'
+import { useToast } from '../components/Toast'
 
 const Reset = () => {
+
+  const toast = useToast()
 
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
@@ -15,7 +18,7 @@ const Reset = () => {
     e.preventDefault()
 
     if (password !== confirmPassword) {
-      alert("Password does not match!")
+      toast.error("Password does not match!")
       return
     }}
 

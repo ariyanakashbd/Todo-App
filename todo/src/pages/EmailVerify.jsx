@@ -2,8 +2,11 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FiMail, FiArrowLeft } from 'react-icons/fi'
+import { useToast } from '../components/Toast'
 
 const EmailVerify = () => {
+
+  const toast = useToast()
 
   const [otp, setOtp] = useState('')
 
@@ -11,7 +14,7 @@ const EmailVerify = () => {
     e.preventDefault()
 
     if (otp.length !== 6) {
-      alert("Please enter 6 digit OTP")
+      toast.error("Please enter 6 digit OTP")
       return
     }
 

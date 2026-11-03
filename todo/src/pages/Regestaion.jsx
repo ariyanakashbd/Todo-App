@@ -1,9 +1,13 @@
 
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { FiEye, FiEyeOff, FiUser, FiMail } from 'react-icons/fi'
+import { useToast } from '../components/Toast'
 
 const Regestaion = () => {
+
+  const navigate = useNavigate()
+  const toast = useToast()
 
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
@@ -18,14 +22,28 @@ const Regestaion = () => {
     e.preventDefault()
 
     if (password !== confirmPassword) {
-      alert("Password does not match!")
+      toast.error("Password does not match!")
       return
     }
 
     if (!agree) {
-      alert("Please accept Terms & Conditions")
+      toast.error("Please accept Terms & Conditions")
       return
-    }}
+    }
+
+    const savedUser = JSON.parse(localStorage.getItem('todo_user') || 'null')
+
+    if (savedUser && savedUser.email === email) {
+      toast.info("This email is already registered. Please login.")
+      navigate('/login')
+      return
+    }
+
+    localStorage.setItem('todo_user', JSON.stringify({ name, email, password }))
+
+    toast.success("Registration successful! Please login.")
+    navigate('/login')
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-700 via-blue-600 to-indigo-800 flex items-center justify-center p-4">
@@ -200,9 +218,9 @@ const Regestaion = () => {
 
               <span>
                 I agree to the
-                <a href="/terms" className="text-blue-600 font-semibold mx-1">
+                <span className="text-blue-600 font-semibold mx-1">
                   Terms & Conditions
-                </a>
+                </span>
                 and Privacy Policy.
               </span>
 
@@ -213,7 +231,8 @@ const Regestaion = () => {
           {/* Register Button */}
           <button
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition duration-300 shadow-md shadow-blue-200"
+            disabled={!agree}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition duration-300 shadow-md shadow-blue-200 disabled:bg-gray-300 disabled:shadow-none disabled:cursor-not-allowed"
           >
             Create Account
           </button>

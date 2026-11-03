@@ -1,5 +1,5 @@
 
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Forgot from "./pages/Forgot";
@@ -20,6 +20,7 @@ function App() {
       <Route path="/reset-password" element={<Reset />} />
       <Route path="/verify-email" element={<EmailVerify />} />
       <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }

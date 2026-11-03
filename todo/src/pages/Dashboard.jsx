@@ -11,37 +11,18 @@ import {
   FiSearch,
   FiX,
 } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
+import { useToast } from "../components/Toast";
 
 const Dashboard = () => {
-  const [tasks, setTasks] = useState([
-    {
-      id: 1,
-      title: "Learn JavaScript",
-      description: "Practice JavaScript every day",
-      priority: "High",
-      status: "Completed",
-      dueDate: "2026-11-05",
-    },
-    {
-      id: 2,
-      title: "Learn React",
-      description: "Build projects with React",
-      priority: "Medium",
-      status: "Pending",
-      dueDate: "2026-11-10",
-    },
-    {
-      id: 3,
-      title: "Learn Node.js",
-      description: "Start learning backend development",
-      priority: "Low",
-      status: "Pending",
-      dueDate: "2026-11-15",
-    },
-  ]);
+  const navigate = useNavigate();
+  const toast = useToast();
+
+  const [tasks, setTasks] = useState([]);
 
   const [showForm, setShowForm] = useState(false);
   const [editId, setEditId] = useState(null);
+  const [deleteId, setDeleteId] = useState(null);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("All");
 
@@ -134,13 +115,21 @@ const Dashboard = () => {
 
   // Delete Task
   const handleDelete = (id) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this task?"
-    );
+    setDeleteId(id);
+  };
 
-    if (confirmDelete) {
-      setTasks(tasks.filter((task) => task.id !== id));
-    }
+  // Confirm Delete
+  const handleConfirmDelete = () => {
+    setTasks(tasks.filter((task) => task.id !== deleteId));
+    setDeleteId(null);
+  };
+
+  // Logout
+  const handleLogout = () => {
+    localStorage.removeItem("todo_logged_in");
+
+    toast.success("Logged out successfully");
+    navigate("/login");
   };
 
   // Complete Task
@@ -171,7 +160,7 @@ const Dashboard = () => {
           </h1>
 
           <button
-            onClick={() => alert("Logout functionality will be added later")}
+            onClick={handleLogout}
             className="flex items-center gap-2 text-red-500 hover:text-red-700 font-medium"
           >
             <FiLogOut />
@@ -471,6 +460,47 @@ const Dashboard = () => {
               </div>
 
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirm Modal */}
+      {deleteId !== null && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+
+          <div className="bg-white w-full max-w-md rounded-2xl p-6 text-center">
+
+            <div className="w-14 h-14 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto">
+              <FiTrash2 size={26} />
+            </div>
+
+            <h3 className="text-xl font-bold text-slate-800 mt-5">
+              Delete this task?
+            </h3>
+
+            <p className="text-slate-500 mt-2">
+              This action cannot be undone. The task will be removed
+              permanently.
+            </p>
+
+            <div className="flex gap-3 mt-7">
+              <button
+                type="button"
+                onClick={() => setDeleteId(null)}
+                className="flex-1 bg-slate-200 text-slate-700 py-3 rounded-lg hover:bg-slate-300 transition"
+              >
+                Cancel
+              </button>
+
+              <button
+                type="button"
+                onClick={handleConfirmDelete}
+                className="flex-1 bg-red-600 text-white py-3 rounded-lg hover:bg-red-700 transition"
+              >
+                Delete
+              </button>
+            </div>
+
           </div>
         </div>
       )}
