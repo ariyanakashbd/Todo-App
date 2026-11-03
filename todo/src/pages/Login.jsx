@@ -13,15 +13,9 @@ const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [rememberMe, setRememberMe] = useState(false)
-  const [agree, setAgree] = useState(false)
 
   const handleLogin = (e) => {
     e.preventDefault()
-
-    if (!agree) {
-      toast.error('Please accept Terms & Conditions')
-      return
-    }
 
     if (!rememberMe) {
       toast.error('Please check Remember me')
@@ -85,7 +79,8 @@ const Login = () => {
               onChange={(e) => setEmail(e.target.value)}
               required
               autoComplete="email"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition"/>
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition"
+            />
 
           </div>
 
@@ -144,7 +139,9 @@ const Login = () => {
 
             </label>
 
-            <Link to="/forgot-password" href="/forgot-password" className="text-sm font-medium text-blue-600 hover:text-blue-800"
+            <Link
+              to="/forgot-password"
+              className="text-sm font-medium text-blue-600 hover:text-blue-800"
             >
               Forgot Password?
             </Link>
@@ -152,7 +149,7 @@ const Login = () => {
           </div>
 
           {/* Login Button */}
-          <button 
+          <button
             type="submit"
             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition duration-300 shadow-md shadow-blue-200"
           >
@@ -166,7 +163,10 @@ const Login = () => {
 
           Don't have an account?
 
-          <Link to="/register" href="/register" className="text-blue-600 font-semibold ml-1 hover:text-blue-800">
+          <Link
+            to="/register"
+            className="text-blue-600 font-semibold ml-1 hover:text-blue-800"
+          >
             Sign Up
           </Link>
 
@@ -178,4 +178,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default Login;
