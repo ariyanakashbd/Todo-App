@@ -86,7 +86,8 @@ const Regestaion = () => {
                 onChange={(e) => setName(e.target.value)}
                 required
                 autoComplete="name"
-                className="w-full px-4 py-3 pr-11 border border-gray-300 rounded-lg outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition"
+                dir="ltr"
+                className="w-full text-left px-4 py-3 pr-11 border border-gray-300 rounded-lg outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition"
               />
 
               <FiUser
