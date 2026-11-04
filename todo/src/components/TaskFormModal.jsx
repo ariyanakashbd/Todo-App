@@ -1,6 +1,19 @@
+import { useEffect, useRef } from "react";
 import { FiX } from "react-icons/fi";
 
 const TaskFormModal = ({ isEdit, formData, onChange, onSubmit, onClose }) => {
+  const descriptionRef = useRef(null);
+
+  // Grow the textarea so the full description stays visible
+  useEffect(() => {
+    const textarea = descriptionRef.current;
+
+    if (textarea) {
+      textarea.style.height = "auto";
+      textarea.style.height = `${textarea.scrollHeight}px`;
+    }
+  }, [formData.description]);
+
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
 
@@ -41,12 +54,13 @@ const TaskFormModal = ({ isEdit, formData, onChange, onSubmit, onClose }) => {
               Description
             </label>
             <textarea
+              ref={descriptionRef}
               name="description"
               value={formData.description}
               onChange={onChange}
               placeholder="Enter task description"
               rows="3"
-              className="w-full border border-slate-300 rounded-lg px-4 py-3 outline-none focus:border-blue-500"
+              className="w-full border border-slate-300 rounded-lg px-4 py-3 outline-none focus:border-blue-500 resize-none overflow-hidden"
             />
           </div>
 

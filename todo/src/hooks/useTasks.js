@@ -1,11 +1,22 @@
 import { useEffect, useState } from "react";
 
+// Fill in any missing fields so older saved tasks always keep a valid status/priority
+const normalizeTask = (task) => ({
+  ...task,
+  title: task.title ?? "",
+  description: task.description ?? "",
+  priority: task.priority ?? "Medium",
+  dueDate: task.dueDate ?? "",
+  status: task.status ?? "Pending",
+});
+
 // Task state, localStorage persistence and CRUD operations
 const useTasks = () => {
   const [tasks, setTasks] = useState(() => {
     const savedTasks = localStorage.getItem("todo_tasks");
+    const parsed = savedTasks ? JSON.parse(savedTasks) : [];
 
-    return savedTasks ? JSON.parse(savedTasks) : [];
+    return parsed.map(normalizeTask);
   });
 
   // Save tasks to localStorage

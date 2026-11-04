@@ -29,12 +29,10 @@ const TaskTable = ({ tasks, onEdit, onDelete, onComplete }) => {
                 <tr key={task.id} className="border-t border-slate-100">
 
                   <td className="p-5">
-                    <p className={`font-semibold text-slate-800 ${
-                      task.status === "Completed" ? "line-through" : ""
-                    }`}>
+                    <p className="font-semibold text-black break-words">
                       {task.title}
                     </p>
-                    <p className="text-sm text-slate-500 mt-1">
+                    <p className="text-sm text-slate-500 mt-1 break-words">
                       {task.description}
                     </p>
                   </td>
